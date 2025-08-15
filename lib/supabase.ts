@@ -1,9 +1,11 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = supabaseUrl && supabaseAnonKey 
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : null
 
 // Database schema types
 export interface City {
@@ -88,6 +90,11 @@ export interface Milestone {
 
 // Database queries
 export const getCities = async (): Promise<City[]> => {
+  if (!supabase) {
+    console.warn('Supabase client not initialized')
+    return []
+  }
+  
   const { data, error } = await supabase
     .from('cities')
     .select('*')
@@ -98,6 +105,11 @@ export const getCities = async (): Promise<City[]> => {
 }
 
 export const getProgramsByCity = async (cityId: string): Promise<Program[]> => {
+  if (!supabase) {
+    console.warn('Supabase client not initialized')
+    return []
+  }
+  
   const { data, error } = await supabase
     .from('programs')
     .select('*')
@@ -109,6 +121,11 @@ export const getProgramsByCity = async (cityId: string): Promise<Program[]> => {
 }
 
 export const getClassesByCity = async (cityId: string): Promise<Class[]> => {
+  if (!supabase) {
+    console.warn('Supabase client not initialized')
+    return []
+  }
+  
   const { data, error } = await supabase
     .from('classes')
     .select(`
@@ -125,6 +142,11 @@ export const getClassesByCity = async (cityId: string): Promise<Class[]> => {
 }
 
 export const getInstructorsByCity = async (cityId: string): Promise<Instructor[]> => {
+  if (!supabase) {
+    console.warn('Supabase client not initialized')
+    return []
+  }
+  
   const { data, error } = await supabase
     .from('instructors')
     .select('*')
@@ -136,6 +158,10 @@ export const getInstructorsByCity = async (cityId: string): Promise<Instructor[]
 }
 
 export const createDonation = async (donation: Omit<Donation, 'id' | 'created_at'>): Promise<Donation> => {
+  if (!supabase) {
+    throw new Error('Supabase client not initialized')
+  }
+  
   const { data, error } = await supabase
     .from('donations')
     .insert([donation])
@@ -147,6 +173,11 @@ export const createDonation = async (donation: Omit<Donation, 'id' | 'created_at
 }
 
 export const getMilestones = async (): Promise<Milestone[]> => {
+  if (!supabase) {
+    console.warn('Supabase client not initialized')
+    return []
+  }
+  
   const { data, error } = await supabase
     .from('milestones')
     .select('*')

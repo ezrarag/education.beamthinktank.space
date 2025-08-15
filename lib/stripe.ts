@@ -1,13 +1,19 @@
 import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2023-10-16',
-})
+const stripe = process.env.STRIPE_SECRET_KEY 
+  ? new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2023-10-16',
+    })
+  : null
 
 export { stripe }
 
 // Payment intent creation for donations
 export const createDonationPaymentIntent = async (amount: number, metadata: any) => {
+  if (!stripe) {
+    throw new Error('Stripe client not initialized')
+  }
+  
   try {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100), // Convert to cents
@@ -27,6 +33,10 @@ export const createDonationPaymentIntent = async (amount: number, metadata: any)
 
 // Payment intent creation for course enrollment
 export const createCoursePaymentIntent = async (amount: number, courseId: string, userId: string) => {
+  if (!stripe) {
+    throw new Error('Stripe client not initialized')
+  }
+  
   try {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100), // Convert to cents
@@ -50,6 +60,10 @@ export const createCoursePaymentIntent = async (amount: number, courseId: string
 
 // Create a subscription for recurring donations
 export const createDonationSubscription = async (amount: number, donorEmail: string, metadata: any) => {
+  if (!stripe) {
+    throw new Error('Stripe client not initialized')
+  }
+  
   try {
     // Create a product for recurring donations
     const product = await stripe.products.create({
@@ -89,6 +103,10 @@ export const createDonationSubscription = async (amount: number, donorEmail: str
 
 // Retrieve payment intent
 export const retrievePaymentIntent = async (paymentIntentId: string) => {
+  if (!stripe) {
+    throw new Error('Stripe client not initialized')
+  }
+  
   try {
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId)
     return paymentIntent
@@ -100,6 +118,10 @@ export const retrievePaymentIntent = async (paymentIntentId: string) => {
 
 // Cancel subscription
 export const cancelSubscription = async (subscriptionId: string) => {
+  if (!stripe) {
+    throw new Error('Stripe client not initialized')
+  }
+  
   try {
     const subscription = await stripe.subscriptions.cancel(subscriptionId)
     return subscription
@@ -111,6 +133,10 @@ export const cancelSubscription = async (subscriptionId: string) => {
 
 // Get customer subscriptions
 export const getCustomerSubscriptions = async (customerId: string) => {
+  if (!stripe) {
+    throw new Error('Stripe client not initialized')
+  }
+  
   try {
     const subscriptions = await stripe.subscriptions.list({
       customer: customerId,

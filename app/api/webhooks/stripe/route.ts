@@ -3,6 +3,21 @@ import { stripe } from '@/lib/stripe'
 import { supabase } from '@/lib/supabase'
 
 export async function POST(request: NextRequest) {
+  // Check if required environment variables are set
+  if (!process.env.STRIPE_WEBHOOK_SECRET) {
+    return NextResponse.json(
+      { error: 'Stripe webhook secret missing' },
+      { status: 500 }
+    )
+  }
+
+  if (!stripe) {
+    return NextResponse.json(
+      { error: 'Stripe client not initialized' },
+      { status: 500 }
+    )
+  }
+
   const body = await request.text()
   const signature = request.headers.get('stripe-signature')
 
@@ -19,7 +34,7 @@ export async function POST(request: NextRequest) {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
+      process.env.STRIPE_WEBHOOK_SECRET
     )
   } catch (err) {
     console.error('Webhook signature verification failed:', err)
@@ -66,6 +81,11 @@ export async function POST(request: NextRequest) {
 }
 
 async function handlePaymentIntentSucceeded(paymentIntent: any) {
+  if (!supabase) {
+    console.error('Supabase client not initialized')
+    return
+  }
+
   const { metadata } = paymentIntent
   
   if (metadata.type === 'donation') {
@@ -90,6 +110,11 @@ async function handlePaymentIntentSucceeded(paymentIntent: any) {
 }
 
 async function handlePaymentIntentFailed(paymentIntent: any) {
+  if (!supabase) {
+    console.error('Supabase client not initialized')
+    return
+  }
+
   const { metadata } = paymentIntent
   
   if (metadata.type === 'donation') {
@@ -102,6 +127,11 @@ async function handlePaymentIntentFailed(paymentIntent: any) {
 }
 
 async function handleInvoicePaymentSucceeded(invoice: any) {
+  if (!supabase || !stripe) {
+    console.error('Supabase or Stripe client not initialized')
+    return
+  }
+
   // Handle successful recurring donation payment
   if (invoice.subscription) {
     const subscription = await stripe.subscriptions.retrieve(invoice.subscription)
@@ -123,6 +153,11 @@ async function handleInvoicePaymentSucceeded(invoice: any) {
 }
 
 async function handleInvoicePaymentFailed(invoice: any) {
+  if (!supabase || !stripe) {
+    console.error('Supabase or Stripe client not initialized')
+    return
+  }
+
   // Handle failed recurring donation payment
   if (invoice.subscription) {
     const subscription = await stripe.subscriptions.retrieve(invoice.subscription)
@@ -144,6 +179,11 @@ async function handleInvoicePaymentFailed(invoice: any) {
 }
 
 async function handleSubscriptionDeleted(subscription: any) {
+  if (!supabase) {
+    console.error('Supabase client not initialized')
+    return
+  }
+
   // Handle cancelled recurring donation subscription
   const { metadata } = subscription
   

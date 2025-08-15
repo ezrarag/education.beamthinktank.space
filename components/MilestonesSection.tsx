@@ -61,12 +61,12 @@ const milestones = [
 ]
 
 const currentStats = [
-  { label: 'Cities Served', value: '23', icon: MapPin, color: 'text-primary-600' },
-  { label: 'Active Programs', value: '78', icon: Target, color: 'text-secondary-600' },
-  { label: 'Students Enrolled', value: '2,847', icon: Users, color: 'text-accent-600' },
-  { label: 'Expert Instructors', value: '156', icon: Award, color: 'text-green-600' },
-  { label: 'Community Partners', value: '89', icon: Heart, color: 'text-purple-600' },
-  { label: 'Success Rate', value: '94%', icon: Trophy, color: 'text-orange-600' }
+  { label: 'Cities Served', value: '23', icon: MapPin, color: 'text-primary-600', bgColor: 'bg-primary-100' },
+  { label: 'Active Programs', value: '78', icon: Target, color: 'text-secondary-600', bgColor: 'bg-secondary-100' },
+  { label: 'Students Enrolled', value: '2,847', icon: Users, color: 'text-accent-600', bgColor: 'bg-accent-100' },
+  { label: 'Expert Instructors', value: '156', icon: Award, color: 'text-green-600', bgColor: 'bg-green-100' },
+  { label: 'Community Partners', value: '89', icon: Heart, color: 'text-purple-600', bgColor: 'bg-purple-100' },
+  { label: 'Success Rate', value: '94%', icon: Trophy, color: 'text-orange-600', bgColor: 'bg-orange-100' }
 ]
 
 export default function MilestonesSection() {

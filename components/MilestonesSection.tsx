@@ -1,7 +1,12 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Trophy, Users, MapPin, Award, Target, Heart } from 'lucide-react'
+import Modal from './Modal'
+import JoinProgramsModal from './JoinProgramsModal'
+import PartnerWithUsModal from './PartnerWithUsModal'
+import DonationModal from './DonationModal'
 
 const milestones = [
   {
@@ -70,6 +75,42 @@ const currentStats = [
 ]
 
 export default function MilestonesSection() {
+  const [activeModal, setActiveModal] = useState<'join' | 'partner' | 'donation' | null>(null)
+
+  const openModal = (modalType: 'join' | 'partner' | 'donation') => {
+    setActiveModal(modalType)
+  }
+
+  const closeModal = () => {
+    setActiveModal(null)
+  }
+
+  const getModalContent = () => {
+    switch (activeModal) {
+      case 'join':
+        return <JoinProgramsModal />
+      case 'partner':
+        return <PartnerWithUsModal />
+      case 'donation':
+        return <DonationModal />
+      default:
+        return null
+    }
+  }
+
+  const getModalTitle = () => {
+    switch (activeModal) {
+      case 'join':
+        return 'Join Our Programs'
+      case 'partner':
+        return 'Partner With Us'
+      case 'donation':
+        return 'Make a Donation'
+      default:
+        return ''
+    }
+  }
+
   return (
     <section className="section-padding">
       <div className="max-w-7xl mx-auto">
@@ -207,18 +248,36 @@ export default function MilestonesSection() {
             Join us in our mission to transform education and strengthen communities across the nation.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="btn-primary text-lg px-8 py-3">
+            <button 
+              className="btn-primary text-lg px-8 py-3"
+              onClick={() => openModal('join')}
+            >
               Join Our Programs
             </button>
-            <button className="btn-outline text-lg px-8 py-3">
+            <button 
+              className="btn-outline text-lg px-8 py-3"
+              onClick={() => openModal('partner')}
+            >
               Partner With Us
             </button>
-            <button className="btn-secondary text-lg px-8 py-3">
+            <button 
+              className="btn-secondary text-lg px-8 py-3"
+              onClick={() => openModal('donation')}
+            >
               Make a Donation
             </button>
           </div>
         </motion.div>
       </div>
+
+      {/* Modal */}
+      <Modal
+        isOpen={activeModal !== null}
+        onClose={closeModal}
+        title={getModalTitle()}
+      >
+        {getModalContent()}
+      </Modal>
     </section>
   )
 }

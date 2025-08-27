@@ -1,4 +1,4 @@
-// File: /Volumes/Untitled/education.beamthinktank.space/app/layout.tsx
+// File: /Users/ehauga/Desktop/education.beamthinktank.space/app/layout.tsx
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

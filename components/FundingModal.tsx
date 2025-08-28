@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, ChevronDown, ChevronUp, Building2, Users, Target, TrendingUp, Handshake, GraduationCap, Globe, MapPin } from 'lucide-react'
+import { X, ChevronDown, ChevronUp, Building2, Users, Target, TrendingUp, GraduationCap, Globe, MapPin, HeartHandshake } from 'lucide-react'
 import { fundingOpportunities, fundingCategories, regions, type FundingOpportunity } from '@/lib/fundingData'
 import { useLocation } from '@/contexts/LocationContext'
 
@@ -27,7 +27,7 @@ const categoryIcons = {
   'University': GraduationCap,
   'Corporate Sponsorship': Building2,
   'Charter/Voucher': Target,
-  'Philanthropy': Handshake,
+  'Philanthropy': HeartHandshake,
   'EB-5': TrendingUp,
   'Other': Globe
 }
@@ -35,7 +35,7 @@ const categoryIcons = {
 export default function FundingModal({ isOpen, onClose }: FundingModalProps) {
   const { userLocation, cityData } = useLocation()
   const [activeStep, setActiveStep] = useState<'overview' | 'onboarding'>('overview')
-  const [expandedCategories, setExpandedCategories] = useState<string[]>(fundingCategories)
+  const [expandedCategories, setExpandedCategories] = useState<string[]>(Array.from(fundingCategories))
   const [selectedRegion, setSelectedRegion] = useState<string>('all')
   const [showLocalFirst, setShowLocalFirst] = useState(true)
   const [formData, setFormData] = useState<OnboardingForm>({

@@ -11,20 +11,31 @@ import FundingModal from '@/components/FundingModal'
 import LocationModal from '@/components/LocationModal'
 
 interface CityPageProps {
-  params: {
+  params: Promise<{
     city: string
-  }
+  }>
 }
 
 export default function CityPage({ params }: CityPageProps) {
-  const { city } = params
+  const [city, setCity] = useState<string>('')
   const { userLocation, cityData, isLoading, setManualLocation } = useLocation()
   const [cityInfo, setCityInfo] = useState<CityData | null>(null)
   const [isFundingModalOpen, setIsFundingModalOpen] = useState(false)
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false)
   const [localOpportunities, setLocalOpportunities] = useState<any[]>([])
 
+  // Handle async params for Next.js 15
   useEffect(() => {
+    const getParams = async () => {
+      const resolvedParams = await params
+      setCity(resolvedParams.city)
+    }
+    getParams()
+  }, [params])
+
+  useEffect(() => {
+    if (!city) return
+    
     const cityData = getCityBySlug(city)
     if (!cityData) {
       notFound()
@@ -39,7 +50,14 @@ export default function CityPage({ params }: CityPageProps) {
   }, [city])
 
   if (!cityInfo) {
-    return null
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading city information...</p>
+        </div>
+      </div>
+    )
   }
 
   const progressPercentage = (cityInfo.progress.fundsRaised / cityInfo.progress.targetGoal) * 100
@@ -110,7 +128,7 @@ export default function CityPage({ params }: CityPageProps) {
             </motion.div>
 
             {/* Progress Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
               <motion.div 
                 className="text-center"
                 initial={{ opacity: 0, y: 20 }}

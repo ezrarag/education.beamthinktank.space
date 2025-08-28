@@ -118,7 +118,7 @@ export default function FundingAdmin() {
             />
             <select
               value={newOpportunity.category || ''}
-              onChange={(e) => setNewOpportunity(prev => ({ ...prev, category: e.target.value }))}
+              onChange={(e) => setNewOpportunity(prev => ({ ...prev, category: e.target.value as any }))}
               className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               {fundingCategories.map(cat => (
@@ -127,7 +127,7 @@ export default function FundingAdmin() {
             </select>
             <select
               value={newOpportunity.status || ''}
-              onChange={(e) => setNewOpportunity(prev => ({ ...prev, status: e.target.value }))}
+              onChange={(e) => setNewOpportunity(prev => ({ ...prev, status: e.target.value as any }))}
               className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               <option value="active">Active</option>

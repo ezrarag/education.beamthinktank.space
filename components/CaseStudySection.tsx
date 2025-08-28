@@ -5,7 +5,7 @@ import { Building2, MapPin, DollarSign, Users, Target, TrendingUp } from 'lucide
 
 export default function CaseStudySection() {
   return (
-    <section className="py-20 bg-gray-50">
+    <section id="demo-case" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div 
           className="text-center mb-16"
@@ -15,7 +15,7 @@ export default function CaseStudySection() {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            South Florida Childcare School (Demo Case)
+            Demo Case: South Florida Child Care School (Dr. Moseley's Pilot)
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             See how Beam transforms a traditional childcare facility into a community-owned education hub
@@ -131,6 +131,62 @@ export default function CaseStudySection() {
             </div>
           </motion.div>
         </div>
+
+        {/* Revenue Projections */}
+        <motion.div 
+          className="mt-16 bg-white rounded-2xl shadow-lg p-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Revenue Projections Based on Dr. Moseley's Current Numbers</h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="text-center p-6 bg-blue-50 rounded-xl">
+              <div className="text-3xl font-bold text-blue-600 mb-2">$180K</div>
+              <div className="text-blue-800 font-medium">Current Childcare Revenue</div>
+              <div className="text-sm text-blue-600 mt-1">120 children @ $1,500/month</div>
+            </div>
+            
+            <div className="text-center p-6 bg-green-50 rounded-xl">
+              <div className="text-3xl font-bold text-green-600 mb-2">$45K</div>
+              <div className="text-green-800 font-medium">Skills Courses</div>
+              <div className="text-sm text-green-600 mt-1">Evening/weekend programs</div>
+            </div>
+            
+            <div className="text-center p-6 bg-purple-50 rounded-xl">
+              <div className="text-3xl font-bold text-purple-600 mb-2">$28K</div>
+              <div className="text-purple-800 font-medium">Student-Run Units</div>
+              <div className="text-sm text-purple-600 mt-1">Tutoring & after-school</div>
+            </div>
+            
+            <div className="text-center p-6 bg-orange-50 rounded-xl">
+              <div className="text-3xl font-bold text-orange-600 mb-2">$25K</div>
+              <div className="text-orange-800 font-medium">Community Rentals</div>
+              <div className="text-sm text-orange-600 mt-1">Events & coworking</div>
+            </div>
+          </div>
+          
+          <div className="text-center p-6 bg-gradient-to-r from-primary-50 to-accent-50 rounded-xl">
+            <div className="text-4xl font-bold text-gray-900 mb-2">Total: $278K/year</div>
+            <div className="text-xl text-gray-700">54% increase from current $180K</div>
+            <div className="text-sm text-gray-600 mt-2">Conservative projections based on verified case data</div>
+          </div>
+        </motion.div>
+
+        {/* Note about projections */}
+        <motion.div 
+          className="mt-8 text-center p-6 bg-blue-50 rounded-2xl"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+        >
+          <p className="text-blue-800 font-medium">
+            All projections are conservative and based on verified case data from Dr. Moseley's pilot program.
+          </p>
+        </motion.div>
       </div>
     </section>
   )

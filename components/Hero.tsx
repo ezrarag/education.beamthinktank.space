@@ -11,24 +11,6 @@ const ArrowRightIcon = () => (
   </svg>
 )
 
-const Building2Icon = () => (
-  <svg className="w-8 h-8 text-accent-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-  </svg>
-)
-
-const UsersIcon = () => (
-  <svg className="w-8 h-8 text-accent-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
-  </svg>
-)
-
-const HeartIcon = () => (
-  <svg className="w-8 h-8 text-accent-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-  </svg>
-)
-
 const WrenchIcon = () => (
   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -67,7 +49,7 @@ export default function Hero() {
     <>
       <section 
         ref={sectionRef}
-        className="relative bg-gradient-primary text-white overflow-hidden min-h-screen flex items-center"
+        className="relative bg-gradient-primary text-white overflow-hidden min-h-screen flex items-center pt-16"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -97,8 +79,8 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              Turning Schools into
-              <span className="block text-accent-300">Community-Owned Education Hubs</span>
+              Equity Collaboration:
+              <span className="block text-accent-300">Transforming Properties into Education Hubs</span>
             </motion.h1>
             
             <motion.p 
@@ -108,8 +90,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              Beam's Education NGO transforms existing properties into collaborative spaces where students practice trades, 
-              communities access courses, and owners gain new revenue pathways while transferring equity to the people.
+              Transform single-use properties into multi-revenue education hubs serving diverse community needs.
             </motion.p>
             
             <motion.div 
@@ -135,38 +116,6 @@ export default function Hero() {
               </button>
             </motion.div>
           </div>
-          
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16"
-            style={{ scale: iconScale }}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            <div className="text-center group">
-              <div className="bg-white/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 group-hover:bg-white/30 transition-colors">
-                <Building2Icon />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Property Transformation</h3>
-              <p className="text-gray-200">Convert existing buildings into multi-use education hubs</p>
-            </div>
-            
-            <div className="text-center group">
-              <div className="bg-white/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 group-hover:bg-white/30 transition-colors">
-                <UsersIcon />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Community Ownership</h3>
-              <p className="text-gray-200">Equity transfer from property owners to communities</p>
-            </div>
-            
-            <div className="text-center group">
-              <div className="bg-white/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 group-hover:bg-white/30 transition-colors">
-                <HeartIcon />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Sustainable Impact</h3>
-              <p className="text-gray-200">Revenue-generating programs that serve local needs</p>
-            </div>
-          </motion.div>
         </div>
       </section>
 

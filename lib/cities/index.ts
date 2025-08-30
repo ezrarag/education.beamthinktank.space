@@ -27,6 +27,45 @@ export interface CityData {
 }
 
 export const cities: Record<string, CityData> = {
+  atlanta: {
+    slug: 'atlanta',
+    name: 'Atlanta',
+    region: 'Atlanta',
+    state: 'Georgia',
+    country: 'USA',
+    coordinates: { lat: 33.7490, lng: -84.3880 },
+    studentOrgs: [
+      {
+        name: 'BEAM@GT',
+        institution: 'Georgia Institute of Technology',
+        status: 'active',
+        members: 30,
+        description: 'Active student organization with 30 committed teaching fellows.'
+      },
+      {
+        name: 'BEAM@Emory',
+        institution: 'Emory University',
+        status: 'forming',
+        members: 18,
+        description: 'Student organization in formation with growing membership.'
+      },
+      {
+        name: 'BEAM@GSU',
+        institution: 'Georgia State University',
+        status: 'planned',
+        members: 0,
+        description: 'Planned student organization for GSU expansion.'
+      }
+    ],
+    progress: {
+      fundsRaised: 200000,
+      commitments: 300000,
+      activePartnerships: 5,
+      targetGoal: 750000
+    },
+    fundingOpportunities: ['gt-students', 'emory-partnership', 'gsu-expansion', 'atlanta-foundation'],
+    description: 'Atlanta is our flagship location with active partnerships and growing student organizations across multiple institutions.'
+  },
   miami: {
     slug: 'miami',
     name: 'Miami',
@@ -117,6 +156,102 @@ export const cities: Record<string, CityData> = {
     },
     fundingOpportunities: [],
     description: 'Jacksonville offers opportunities for Northeast Florida expansion.'
+  },
+  newyork: {
+    slug: 'newyork',
+    name: 'New York',
+    region: 'New York',
+    state: 'New York',
+    country: 'USA',
+    coordinates: { lat: 40.7128, lng: -74.0060 },
+    studentOrgs: [
+      {
+        name: 'BEAM@Columbia',
+        institution: 'Columbia University',
+        status: 'planned',
+        members: 0,
+        description: 'Planned student organization for Columbia expansion.'
+      },
+      {
+        name: 'BEAM@NYU',
+        institution: 'New York University',
+        status: 'planned',
+        members: 0,
+        description: 'Planned student organization for NYU expansion.'
+      }
+    ],
+    progress: {
+      fundsRaised: 0,
+      commitments: 50000,
+      activePartnerships: 0,
+      targetGoal: 1000000
+    },
+    fundingOpportunities: ['nyc-expansion', 'columbia-partnership', 'nyu-partnership'],
+    description: 'New York City represents our expansion into the Northeast with major university partnerships.'
+  },
+  losangeles: {
+    slug: 'losangeles',
+    name: 'Los Angeles',
+    region: 'Los Angeles',
+    state: 'California',
+    country: 'USA',
+    coordinates: { lat: 34.0522, lng: -118.2437 },
+    studentOrgs: [
+      {
+        name: 'BEAM@UCLA',
+        institution: 'University of California, Los Angeles',
+        status: 'planned',
+        members: 0,
+        description: 'Planned student organization for UCLA expansion.'
+      },
+      {
+        name: 'BEAM@USC',
+        institution: 'University of Southern California',
+        status: 'planned',
+        members: 0,
+        description: 'Planned student organization for USC expansion.'
+      }
+    ],
+    progress: {
+      fundsRaised: 0,
+      commitments: 75000,
+      activePartnerships: 0,
+      targetGoal: 800000
+    },
+    fundingOpportunities: ['la-expansion', 'ucla-partnership', 'usc-partnership'],
+    description: 'Los Angeles represents our expansion into California with major university partnerships.'
+  },
+  chicago: {
+    slug: 'chicago',
+    name: 'Chicago',
+    region: 'Chicago',
+    state: 'Illinois',
+    country: 'USA',
+    coordinates: { lat: 41.8781, lng: -87.6298 },
+    studentOrgs: [
+      {
+        name: 'BEAM@UChicago',
+        institution: 'University of Chicago',
+        status: 'planned',
+        members: 0,
+        description: 'Planned student organization for UChicago expansion.'
+      },
+      {
+        name: 'BEAM@Northwestern',
+        institution: 'Northwestern University',
+        status: 'planned',
+        members: 0,
+        description: 'Planned student organization for Northwestern expansion.'
+      }
+    ],
+    progress: {
+      fundsRaised: 0,
+      commitments: 40000,
+      activePartnerships: 0,
+      targetGoal: 600000
+    },
+    fundingOpportunities: ['chicago-expansion', 'uchicago-partnership', 'northwestern-partnership'],
+    description: 'Chicago represents our expansion into the Midwest with major university partnerships.'
   }
 }
 
@@ -136,7 +271,7 @@ export function getCitiesByState(state: string): CityData[] {
 }
 
 export function getNearestCity(lat: number, lng: number): CityData {
-  let nearestCity = cities.miami // default
+  let nearestCity = cities.atlanta // default
   let shortestDistance = Infinity
 
   Object.values(cities).forEach(city => {

@@ -7,6 +7,12 @@
 @layer base {
   html {
     font-family: 'Canva Sans', system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    background-color: #000;
+    color: #fff;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -42,6 +48,14 @@
   .section-padding {
     @apply py-16 px-4 sm:px-6 lg:px-8;
   }
+  
+  .glass-effect {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+  
+  .text-glow {
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+  }
 }
 
 @layer utilities {
@@ -55,5 +69,26 @@
   
   .bg-gradient-secondary {
     @apply bg-gradient-to-br from-secondary-500 to-secondary-700;
+  }
+  
+  .bg-gradient-dark {
+    @apply bg-gradient-to-br from-gray-900 via-black to-gray-900;
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
   }
 }

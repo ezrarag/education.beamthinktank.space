@@ -18,7 +18,11 @@ const WrenchIcon = () => (
   </svg>
 )
 
-export default function Hero() {
+interface HeroProps {
+  cityName?: string
+}
+
+export default function Hero({ cityName }: HeroProps) {
   const [isEquipmentModalOpen, setIsEquipmentModalOpen] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
@@ -72,6 +76,19 @@ export default function Hero() {
         
         <div className="relative max-w-7xl mx-auto section-padding w-full">
           <div className="text-center">
+            {cityName && (
+              <motion.div 
+                className="mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <span className="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium text-white border border-white/30">
+                  🎯 Serving {cityName} and surrounding areas
+                </span>
+              </motion.div>
+            )}
+            
             <motion.h1 
               className="text-4xl md:text-6xl font-bold mb-6"
               style={{ opacity: titleOpacity }}
@@ -91,6 +108,7 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               Transform single-use properties into multi-revenue education hubs serving diverse community needs.
+              {cityName && ` Join us in building a stronger educational foundation in ${cityName}.`}
             </motion.p>
             
             <motion.div 

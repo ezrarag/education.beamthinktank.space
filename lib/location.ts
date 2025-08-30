@@ -84,12 +84,12 @@ export async function getLocationByBrowser(): Promise<UserLocation | null> {
   })
 }
 
-// Fallback to default location (Miami)
+// Fallback to default location (Atlanta)
 export function getDefaultLocation(): UserLocation {
   return {
-    city: 'Miami',
-    region: 'Miami',
-    state: 'Florida',
+    city: 'Atlanta',
+    region: 'Atlanta',
+    state: 'Georgia',
     country: 'USA',
     detected: false,
     method: 'default'

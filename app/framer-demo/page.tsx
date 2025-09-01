@@ -42,7 +42,7 @@ export default function FramerDemoPage() {
             title="Get Started Today"
             newTab={false}
             smoothScroll={true}
-            variant="White - Big email"
+            variants="White - Big email"
           />
         </div>
       </section>

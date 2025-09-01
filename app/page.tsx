@@ -8,15 +8,54 @@ import AdvlogoFramerComponent from '../framer/advlogo';
 import OtherFramerComponent from '../framer/other';
 import CustomHamburgerMenu from '@/components/CustomHamburgerMenu';
 import DropdownMenu from '@/components/DropdownMenu';
+import VideoLightbox from '@/components/VideoLightbox';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function HomePage() {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [currentVideo, setCurrentVideo] = useState({ url: '', title: '' });
+
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const [schoolsDropdownOpen, setSchoolsDropdownOpen] = useState(false);
+
+  const openLightbox = (videoUrl: string, title: string) => {
+    setCurrentVideo({ url: videoUrl, title });
+    setLightboxOpen(true);
+  };
+
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+  };
+
+  const toggleSchoolsDropdown = () => {
+    setSchoolsDropdownOpen(!schoolsDropdownOpen);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (schoolsDropdownOpen && !target.closest('.schools-dropdown-container')) {
+        setSchoolsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [schoolsDropdownOpen]);
+
+
+
+
+
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+    <div className="h-screen bg-black text-white relative overflow-hidden">
       {/* Background Image */}
       <div 
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80")',
+          backgroundImage: 'url("https://liclwdxursggsdzfrfnd.supabase.co/storage/v1/object/public/home/pexels-katerina-holmes-5905441.jpg")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat'
@@ -25,6 +64,8 @@ export default function HomePage() {
       
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/40 z-10"></div>
+
+
 
       {/* Header Section */}
       <header className="relative z-20 px-6 py-4" style={{ backgroundColor: 'transparent !important' }}>
@@ -37,29 +78,82 @@ export default function HomePage() {
           {/* Center - Contact Info */}
           <div className="hidden lg:flex items-center space-x-32 text-sm tracking-wide">
             <span>Atlanta, Georgia</span>
-            <div className="flex flex-col space-y-1">
-              <span>hello@beameducation.space</span>
-              <span>(555) 123-4567</span>
-            </div>
+            <span>About</span>
           </div>
 
           {/* Right - Buttons and Menu */}
-          <div className="flex items-center space-x-6">
-            {/* Primary Action Button */}
-            <ButtonFramerComponent.Responsive
-              link="/contact"
-              title="Say 'Hello'"
-              variants="White - Big simplelink"
-              newTab={false}
-              smoothScroll={true}
-            />
-            
-            {/* Yellow Arrow Button */}
-            <button className="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center hover:bg-yellow-300 transition-colors shadow-lg">
-              <svg className="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
+          <div className="flex items-center space-x-4">
+            {/* See Schools Button with Dropdown */}
+            <div className="flex items-center relative schools-dropdown-container">
+              <div className="bg-transparent border border-white/20 rounded-full px-6 py-2 shadow-lg flex items-center justify-between w-48">
+                <button 
+                  onClick={toggleSchoolsDropdown}
+                  className="text-white font-medium text-sm"
+                >
+                  See "schools"
+                </button>
+                
+                {/* Yellow Arrow Button */}
+                <button 
+                  onClick={toggleSchoolsDropdown}
+                  className={`w-7 h-7 bg-yellow-400 rounded-full flex items-center justify-center hover:bg-yellow-300 transition-colors shadow-lg transform transition-transform duration-200 ${
+                    schoolsDropdownOpen ? 'rotate-180' : ''
+                  }`}
+                >
+                  <svg className="w-3 h-3 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Schools Dropdown */}
+              <AnimatePresence>
+                {schoolsDropdownOpen && (
+                  <motion.div 
+                    className="absolute top-full left-0 mt-2 w-64 z-50"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div className="space-y-2">
+                      <motion.div
+                        className="bg-transparent border border-white/20 rounded-full px-6 py-2 shadow-lg"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.1, duration: 0.3 }}
+                      >
+                        <button className="text-white font-medium text-sm w-full text-left">
+                          Daycare @ Vine City
+                        </button>
+                      </motion.div>
+                      
+                      <motion.div
+                        className="bg-transparent border border-white/20 rounded-full px-6 py-2 shadow-lg"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.2, duration: 0.3 }}
+                      >
+                        <button className="text-white font-medium text-sm w-full text-left">
+                          High School @ Old Fourth Ward
+                        </button>
+                      </motion.div>
+                      
+                      <motion.div
+                        className="bg-transparent border border-white/20 rounded-full px-6 py-2 shadow-lg"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.3, duration: 0.3 }}
+                      >
+                        <button className="text-white font-medium text-sm w-full text-left">
+                          Proposed Site @ Bankhead
+                        </button>
+                      </motion.div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
             
             <CustomHamburgerMenu />
           </div>
@@ -67,72 +161,117 @@ export default function HomePage() {
       </header>
 
       {/* Main Content */}
-      <main className="relative z-20 h-screen flex flex-col justify-between">
-        {/* Top Section - Award Info */}
-        <div className="px-6 pt-32">
-          <div className="flex justify-start">
-            <div className="text-left space-y-2">
-              <span className="text-sm text-gray-300 tracking-wide">2024</span>
-              <div className="flex items-center space-x-2">
-                <span className="text-sm font-semibold tracking-wide">EDU</span>
-                <span className="text-sm tracking-wide">Education Excellence Awards</span>
+      <main className="relative z-20 flex-1 flex flex-col justify-between">
+        {/* Top Section - Company Info */}
+        <div className="px-6 pt-60">
+          <div className="flex justify-start ml-16">
+            <div className="relative">
+              <div className="absolute left-0 top-0 w-px bg-white/30" style={{ height: '50vh' }}>
+                <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white/30 to-transparent"></div>
+              </div>
+              
+              <div className="ml-8 space-y-4">
+                <div className="text-left space-y-2">
+                  <span className="text-sm text-gray-300 tracking-wide">2025</span>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm font-semibold tracking-wide">Building</span>
+                    <span className="text-sm tracking-wide">real schools, careers, and ownership.</span>
+                  </div>
+                </div>
+                
+                <div className="mt-6">
+                  <div className="text-left space-y-2">
+                    <div className="text-2xl lg:text-3xl font-bold text-white tracking-wide relative z-40">
+                      <span 
+                        className="cursor-pointer hover:text-yellow-400 transition-colors duration-200"
+                        onClick={() => openLightbox('https://www.youtube.com/embed/your-equity-video-id', 'Equity')}
+                      >
+                        Equity
+                      </span>
+                      <span className="text-white"> + </span>
+                      <span 
+                        className="cursor-pointer hover:text-yellow-400 transition-colors duration-200"
+                        onClick={() => openLightbox('https://www.youtube.com/embed/your-experience-video-id', 'Experience')}
+                      >
+                        Experience
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          
-          <div className="mt-6 flex justify-start">
-            <HeroSmallsloganFramerComponent.Responsive
-              partTop="We Craft Education"
-              partBottom="Since 2020"
-            />
           </div>
         </div>
 
         {/* Center Section - Services */}
-        <div className="flex-1 flex items-center justify-end px-6 -mt-20">
+        <div className="flex-1 flex items-center justify-end px-6 mt-20 mr-16">
           <div className="relative">
-            <div className="absolute left-0 top-0 bottom-0 w-px bg-white/30">
+            {/* Vertical line extending from top of viewport */}
+            <div className="absolute left-0 top-0 w-px bg-white/30" style={{ height: '100vh' }}>
               <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white/30 to-transparent"></div>
             </div>
             
             <div className="ml-8 space-y-4">
-              <HeroItemsFramerComponent.Responsive
-                item1st="Academic Programs"
-                item2nd="Social Work"
-                item3rd="Community Learning"
-                item4th=""
-              />
-            </div>
-
-            {/* Edit Icon */}
-            <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-              <button className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-white transition-colors">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Section - Main Headline */}
-        <div className="px-6 pb-32">
-          <div className="text-center w-full">
-            <h2 className="text-6xl lg:text-8xl xl:text-9xl font-bold leading-tight w-full tracking-wide">
-              <div className="w-full">Your Future is Built Here</div>
-              <div className="relative w-full">
-                From Classrom to 
-                <span className="relative inline-block">
-                  <span className="relative z-10">Enterprise</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 to-orange-400/30 transform rotate-1 scale-105 animate-pulse"></div>
-                  <div className="absolute inset-0 bg-gradient-to-l from-yellow-400/20 to-orange-400/20 transform -rotate-1 scale-110 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-                </span>
+              <div className="space-y-1">
+                <div 
+                  className="text-sm text-white cursor-pointer hover:text-yellow-400 transition-colors duration-200 font-normal"
+                  onMouseEnter={() => setHoveredItem('parents')}
+                  onMouseLeave={() => setHoveredItem(null)}
+                >
+                  Parents
+                </div>
+                <div 
+                  className="text-sm text-white cursor-pointer hover:text-yellow-400 transition-colors duration-200 font-normal"
+                  onMouseEnter={() => setHoveredItem('students')}
+                  onMouseLeave={() => setHoveredItem(null)}
+                >
+                  Students
+                </div>
+                <div 
+                  className="text-sm text-white cursor-pointer hover:text-yellow-400 transition-colors duration-200 font-normal"
+                  onMouseEnter={() => setHoveredItem('community')}
+                  onMouseLeave={() => setHoveredItem(null)}
+                >
+                  Community
+                </div>
+                <div 
+                  className="text-sm text-white cursor-pointer hover:text-yellow-400 transition-colors duration-200 font-normal"
+                  onMouseEnter={() => setHoveredItem('institutions')}
+                  onMouseLeave={() => setHoveredItem(null)}
+                >
+                  Institutions
+                </div>
               </div>
-            </h2>
+            </div>
           </div>
         </div>
+
+
       </main>
 
+      {/* Hover Popup */}
+      {hoveredItem && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+          <div className="bg-transparent border border-white/20 rounded-lg p-4 shadow-xl w-64 h-48 flex items-center justify-center">
+            <div className="text-center">
+              <div className="w-32 h-24 bg-gray-200 rounded-lg flex items-center justify-center mb-2">
+                <span className="text-gray-500 text-sm">Placeholder Image</span>
+              </div>
+              <div className="text-white text-sm font-medium capitalize">
+                {hoveredItem}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Video Lightbox */}
+      <VideoLightbox
+        isOpen={lightboxOpen}
+        onClose={closeLightbox}
+        videoUrl={currentVideo.url}
+        title={currentVideo.title}
+      />
 
     </div>
   );

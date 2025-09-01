@@ -6,7 +6,8 @@ import AllMainMenuFramerComponent from '../framer/all-main-menu';
 import ButtonFramerComponent from '../framer/button';
 import AdvlogoFramerComponent from '../framer/advlogo';
 import OtherFramerComponent from '../framer/other';
-import HamburgerIconFramerComponent from '../framer/hamburger-icon';
+import CustomHamburgerMenu from '@/components/CustomHamburgerMenu';
+import DropdownMenu from '@/components/DropdownMenu';
 
 export default function HomePage() {
   return (
@@ -30,11 +31,11 @@ export default function HomePage() {
         <div className="flex items-center justify-between">
           {/* Left - Logo */}
           <div className="flex-shrink-0">
-            <h1 className="text-2xl font-bold text-white">EDUCATION</h1>
+            <h1 className="text-2xl font-bold text-white tracking-wide">EDUCATION</h1>
           </div>
 
           {/* Center - Contact Info */}
-          <div className="hidden lg:flex items-center space-x-8 text-sm">
+          <div className="hidden lg:flex items-center space-x-32 text-sm tracking-wide">
             <span>Atlanta, Georgia</span>
             <div className="flex flex-col space-y-1">
               <span>hello@beameducation.space</span>
@@ -43,34 +44,43 @@ export default function HomePage() {
           </div>
 
           {/* Right - Buttons and Menu */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-6">
+            {/* Primary Action Button */}
             <ButtonFramerComponent.Responsive
               link="/contact"
               title="Say 'Hello'"
-              variants="Trans"
+              variants="White - Big simplelink"
               newTab={false}
               smoothScroll={true}
             />
-            <HamburgerIconFramerComponent.Responsive />
+            
+            {/* Yellow Arrow Button */}
+            <button className="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center hover:bg-yellow-300 transition-colors shadow-lg">
+              <svg className="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+            
+            <CustomHamburgerMenu />
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="relative z-20 min-h-screen flex flex-col justify-between">
+      <main className="relative z-20 h-screen flex flex-col justify-between">
         {/* Top Section - Award Info */}
         <div className="px-6 pt-32">
-          <div className="flex justify-start lg:justify-center">
-            <div className="text-left lg:text-center space-y-2">
-              <span className="text-sm text-gray-300">2024</span>
+          <div className="flex justify-start">
+            <div className="text-left space-y-2">
+              <span className="text-sm text-gray-300 tracking-wide">2024</span>
               <div className="flex items-center space-x-2">
-                <span className="text-sm font-semibold">EDU</span>
-                <span className="text-sm">Education Excellence Awards</span>
+                <span className="text-sm font-semibold tracking-wide">EDU</span>
+                <span className="text-sm tracking-wide">Education Excellence Awards</span>
               </div>
             </div>
           </div>
           
-          <div className="mt-6 flex justify-start lg:justify-center">
+          <div className="mt-6 flex justify-start">
             <HeroSmallsloganFramerComponent.Responsive
               partTop="We Craft Education"
               partBottom="Since 2020"
@@ -108,13 +118,14 @@ export default function HomePage() {
         {/* Bottom Section - Main Headline */}
         <div className="px-6 pb-32">
           <div className="text-center w-full">
-            <h2 className="text-6xl lg:text-8xl xl:text-9xl font-bold leading-tight w-full">
+            <h2 className="text-6xl lg:text-8xl xl:text-9xl font-bold leading-tight w-full tracking-wide">
               <div className="w-full">Your Future is Built Here</div>
               <div className="relative w-full">
                 From Classrom to 
                 <span className="relative inline-block">
-                  Enterprise
-                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-orange-400/20 transform rotate-2 scale-105"></div>
+                  <span className="relative z-10">Enterprise</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 to-orange-400/30 transform rotate-1 scale-105 animate-pulse"></div>
+                  <div className="absolute inset-0 bg-gradient-to-l from-yellow-400/20 to-orange-400/20 transform -rotate-1 scale-110 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
                 </span>
               </div>
             </h2>
@@ -122,30 +133,7 @@ export default function HomePage() {
         </div>
       </main>
 
-      {/* Bottom Interactive Elements */}
-      <div className="relative z-20 absolute bottom-6 right-6 flex items-center space-x-4">
-        <div className="bg-black/80 backdrop-blur-sm rounded-lg p-3 border border-white/20">
-          <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 bg-white rounded-sm"></div>
-            <span className="text-sm font-medium">BEAM</span>
-          </div>
-        </div>
-        
-        <ButtonFramerComponent.Responsive
-          link="/programs"
-          title="Explore Programs"
-          variants="Dark"
-          newTab={false}
-          smoothScroll={true}
-        />
-        
-        <div className="bg-black/80 backdrop-blur-sm rounded-lg p-3 border border-white/20">
-          <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-white rounded-full"></div>
-            <span className="text-sm">Made with Framer</span>
-          </div>
-        </div>
-      </div>
+
     </div>
   );
 }

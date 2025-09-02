@@ -9,7 +9,7 @@ import OtherFramerComponent from '../framer/other';
 import CustomHamburgerMenu from '@/components/CustomHamburgerMenu';
 import DropdownMenu from '@/components/DropdownMenu';
 import VideoLightbox from '@/components/VideoLightbox';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { properties } from '@/lib/properties';
 import Link from 'next/link';
@@ -17,6 +17,7 @@ import { useRouter } from 'next/navigation';
 
 export default function HomePage() {
   const router = useRouter();
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentVideo, setCurrentVideo] = useState({ url: '', title: '' });
 
@@ -117,7 +118,7 @@ export default function HomePage() {
           {/* Right - Buttons and Menu */}
           <div className="flex items-center space-x-2 sm:space-x-4">
             {/* See Schools Button with Dropdown */}
-            <div className="flex items-center relative schools-dropdown-container">
+            <div ref={dropdownRef} className="flex items-center relative schools-dropdown-container">
               <div className="bg-transparent border border-white/20 rounded-full px-3 sm:px-6 py-2 shadow-lg flex items-center justify-between w-32 sm:w-48">
                 <button 
                   onClick={toggleSchoolsDropdown}
@@ -139,50 +140,35 @@ export default function HomePage() {
                 </button>
               </div>
 
-              {/* Schools Dropdown */}
-              <AnimatePresence>
-                {schoolsDropdownOpen && (
-                  <motion.div 
-                    className="absolute top-full left-0 mt-2 w-32 sm:w-48 z-50 pointer-events-auto bg-transparent"
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <div className="space-y-2 p-1">
-                      {properties.map((property, index) => (
-                        <motion.div
-                          key={property.id}
-                          className="bg-transparent border border-white/20 rounded-full px-3 sm:px-6 py-3 shadow-lg overflow-hidden cursor-pointer hover:bg-yellow-400/20 hover:border-yellow-400/40 transition-all duration-200 group w-full"
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.1 + (index * 0.1), duration: 0.3 }}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            console.log('Click detected on:', property.title);
-                            console.log('Navigating to:', `/atlanta/properties/${property.slug}`);
-                            setSchoolsDropdownOpen(false);
-                            router.push(`/atlanta/properties/${property.slug}`);
-                          }}
-                          onMouseEnter={(e) => {
-                            e.preventDefault();
-                            console.log('Hover entered:', property.title);
-                          }}
-                          onMouseLeave={(e) => {
-                            e.preventDefault();
-                            console.log('Hover left:', property.title);
-                          }}
-                        >
-                          <div className="text-white font-medium text-xs sm:text-sm w-full text-left whitespace-nowrap group-hover:text-yellow-400 transition-colors duration-200 pointer-events-none">
-                            {property.title}
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {/* Dropdown Menu */}
+              {schoolsDropdownOpen && (
+                <div className="absolute top-full left-0 mt-2 w-32 sm:w-48 z-[9999] bg-black/95 backdrop-blur-sm border border-white/20 rounded-lg shadow-2xl overflow-hidden">
+                  <div className="p-2 space-y-1">
+                    {properties.map((property, index) => (
+                      <button
+                        key={property.id}
+                        className="w-full text-left bg-transparent hover:bg-yellow-400/20 hover:border-yellow-400/40 border border-transparent rounded-full px-3 sm:px-4 py-2 transition-all duration-200 group"
+                        onClick={() => {
+                          console.log('Click detected on:', property.title);
+                          console.log('Navigating to:', `/atlanta/properties/${property.slug}`);
+                          setSchoolsDropdownOpen(false);
+                          router.push(`/atlanta/properties/${property.slug}`);
+                        }}
+                        onMouseEnter={() => {
+                          console.log('Hover entered:', property.title);
+                        }}
+                        onMouseLeave={() => {
+                          console.log('Hover left:', property.title);
+                        }}
+                      >
+                        <div className="text-white font-medium text-xs sm:text-sm group-hover:text-yellow-400 transition-colors duration-200 truncate">
+                          {property.title}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
             
             <CustomHamburgerMenu />

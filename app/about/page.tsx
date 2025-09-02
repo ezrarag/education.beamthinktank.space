@@ -88,7 +88,7 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Hero Section */
+      {/* Hero Section */}
       <div className="relative h-screen">
         <div 
           className="absolute inset-0 bg-cover bg-center"
@@ -119,7 +119,7 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* Mission Statement */
+      {/* Mission Statement */}
       <div className="py-20 px-6">
         <div className="max-w-6xl mx-auto text-center">
           <motion.div
@@ -138,7 +138,7 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* Team Section */
+      {/* Team Section */}
       {/* 
       <div className="py-20 px-6 bg-white/5">
         <div className="max-w-6xl mx-auto">
@@ -193,7 +193,7 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* Stats Section */
+      {/* Stats Section */}
       <div className="py-20 px-6">
         <div className="max-w-6xl mx-auto text-center">
           <motion.div
@@ -209,7 +209,7 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* History Section */
+      {/* History Section */}
       <div className="py-20 px-6 bg-white/5">
         <div className="max-w-6xl mx-auto">
           <motion.div
@@ -248,7 +248,7 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* Awards Section */
+      {/* Awards Section */}
       <div className="py-20 px-6">
         <div className="max-w-6xl mx-auto">
           <motion.div
@@ -285,7 +285,7 @@ export default function AboutPage() {
       </div>
       */
 
-      {/* CTA Section */
+      {/* CTA Section */}
       <div className="py-20 px-6 bg-white/5">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
@@ -316,7 +316,7 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* Back Button */
+      {/* Back Button */}
       <div className="py-16 text-center">
         <button 
           onClick={() => window.history.back()}

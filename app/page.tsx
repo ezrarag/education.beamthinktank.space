@@ -44,7 +44,7 @@ export default function HomePage() {
   // Hover images configuration
   const hoverImages = {
     parents: 'https://liclwdxursggsdzfrfnd.supabase.co/storage/v1/object/public/home/right%20panel%20videos/pexels-vanessa-loring-5082960.jpg',
-    students: 'https://liclwdxursggsdzfrfnd.supabase.co/storage/v1/object/public/home/right%20panel%20videos/pexels-yankrukov-8199175.jpg',
+    students: 'https://liclwdxursggsdzfrfnd.supabase.co/storage/v1/object/public/home/right%20panel%20videos/pexels-yankrukov-8199175.jpg ',
     community: 'https://liclwdxursggsdzfrfnd.supabase.co/storage/v1/object/public/home/right%20panel%20videos/pexels-bertellifotografia-33714912.jpg',
     institutions: 'https://liclwdxursggsdzfrfnd.supabase.co/storage/v1/object/public/home/right%20panel%20videos/pexels-davegarcia-31085767.jpg'
   };
@@ -80,7 +80,7 @@ export default function HomePage() {
 
 
   return (
-    <div className="h-screen bg-black text-white relative overflow-hidden">
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
       {/* Background Image */}
       <div 
         className="absolute inset-0 z-0"
@@ -95,14 +95,12 @@ export default function HomePage() {
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/40 z-10"></div>
 
-
-
       {/* Header Section */}
-      <header className="relative z-20 px-6 py-4" style={{ backgroundColor: 'transparent !important' }}>
+      <header className="relative z-20 px-4 sm:px-6 py-4" style={{ backgroundColor: 'transparent !important' }}>
         <div className="flex items-center justify-between">
           {/* Left - Logo */}
           <div className="flex-shrink-0">
-            <h1 className="text-2xl font-bold text-white tracking-wide">EDUCATION</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-white tracking-wide">EDUCATION</h1>
           </div>
 
           {/* Center - Contact Info */}
@@ -117,13 +115,13 @@ export default function HomePage() {
           </div>
 
           {/* Right - Buttons and Menu */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             {/* See Schools Button with Dropdown */}
             <div className="flex items-center relative schools-dropdown-container">
-              <div className="bg-transparent border border-white/20 rounded-full px-6 py-2 shadow-lg flex items-center justify-between w-48">
+              <div className="bg-transparent border border-white/20 rounded-full px-3 sm:px-6 py-2 shadow-lg flex items-center justify-between w-32 sm:w-48">
                 <button 
                   onClick={toggleSchoolsDropdown}
-                  className="text-white font-medium text-sm"
+                  className="text-white font-medium text-xs sm:text-sm"
                 >
                   See "schools"
                 </button>
@@ -131,11 +129,11 @@ export default function HomePage() {
                 {/* Yellow Arrow Button */}
                 <button 
                   onClick={toggleSchoolsDropdown}
-                  className={`w-7 h-7 bg-yellow-400 rounded-full flex items-center justify-center hover:bg-yellow-300 transition-colors shadow-lg transform transition-transform duration-200 ${
+                  className={`w-6 h-6 sm:w-7 sm:h-7 bg-yellow-400 rounded-full flex items-center justify-center hover:bg-yellow-300 transition-colors shadow-lg transform transition-transform duration-200 ${
                     schoolsDropdownOpen ? 'rotate-180' : ''
                   }`}
                 >
-                  <svg className="w-3 h-3 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-2 h-2 sm:w-3 sm:h-3 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
@@ -145,7 +143,7 @@ export default function HomePage() {
               <AnimatePresence>
                 {schoolsDropdownOpen && (
                   <motion.div 
-                    className="absolute top-full left-0 mt-2 w-48 z-50 pointer-events-auto"
+                    className="absolute top-full left-0 mt-2 w-32 sm:w-48 z-50 pointer-events-auto"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
@@ -155,7 +153,7 @@ export default function HomePage() {
                       {properties.map((property, index) => (
                         <motion.div
                           key={property.id}
-                          className="bg-transparent border border-white/20 rounded-full px-6 py-2 shadow-lg overflow-hidden cursor-pointer hover:bg-yellow-400/20 hover:border-yellow-400/40 transition-all duration-200"
+                          className="bg-transparent border border-white/20 rounded-full px-3 sm:px-6 py-2 shadow-lg overflow-hidden cursor-pointer hover:bg-yellow-400/20 hover:border-yellow-400/40 transition-all duration-200"
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: 0.1 + (index * 0.1), duration: 0.3 }}
@@ -166,7 +164,7 @@ export default function HomePage() {
                             router.push(`/atlanta/properties/${property.slug}`);
                           }}
                         >
-                          <div className="text-white font-medium text-sm w-full text-left whitespace-nowrap hover:text-yellow-400 transition-colors duration-200">
+                          <div className="text-white font-medium text-xs sm:text-sm w-full text-left whitespace-nowrap hover:text-yellow-400 transition-colors duration-200">
                             {property.title}
                           </div>
                         </motion.div>
@@ -183,27 +181,28 @@ export default function HomePage() {
       </header>
 
       {/* Main Content */}
-      <main className="relative z-20 flex-1 flex flex-col justify-between">
+      <main className="relative z-20 flex-1 flex flex-col justify-between min-h-screen">
         {/* Top Section - Company Info */}
-        <div className="px-6 pt-60">
-          <div className="flex justify-start ml-16">
+        <div className="px-4 sm:px-6 pt-20 sm:pt-40 lg:pt-60">
+          <div className="flex justify-start ml-4 sm:ml-8 lg:ml-16">
             <div className="relative">
-              <div className="absolute left-0 top-0 w-px bg-white/30" style={{ height: '50vh' }}>
+              {/* Vertical line - hidden on mobile, visible on larger screens */}
+              <div className="hidden sm:block absolute left-0 top-0 w-px bg-white/30" style={{ height: '50vh' }}>
                 <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white/30 to-transparent"></div>
               </div>
               
-              <div className="ml-8 space-y-4">
+              <div className="ml-0 sm:ml-8 space-y-4">
                 <div className="text-left space-y-2">
                   <span className="text-sm text-gray-300 tracking-wide">2025</span>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 space-y-1 sm:space-y-0">
                     <span className="text-sm font-semibold tracking-wide">Building</span>
                     <span className="text-sm tracking-wide">real schools, careers, and ownership.</span>
                   </div>
                 </div>
                 
-                <div className="mt-6">
+                <div className="mt-4 sm:mt-6">
                   <div className="text-left space-y-2">
-                    <div className="text-2xl lg:text-3xl font-bold text-white tracking-wide relative z-40">
+                    <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-wide relative z-40">
                       <span 
                         className={`cursor-pointer hover:text-yellow-400 transition-colors duration-200 ${
                           isFlashing ? 'animate-flash' : ''
@@ -230,14 +229,14 @@ export default function HomePage() {
         </div>
 
         {/* Center Section - Services */}
-        <div className="flex-1 flex items-center justify-end px-6 mt-20 mr-16">
+        <div className="flex-1 flex items-center justify-end px-4 sm:px-6 mt-10 sm:mt-20 mr-4 sm:mr-8 lg:mr-16">
           <div className="relative">
-            {/* Vertical line extending from top of viewport */}
-            <div className="absolute left-0 top-0 w-px bg-white/30" style={{ height: '100vh' }}>
+            {/* Vertical line - hidden on mobile, visible on larger screens */}
+            <div className="hidden sm:block absolute left-0 top-0 w-px bg-white/30" style={{ height: '100vh' }}>
               <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white/30 to-transparent"></div>
             </div>
             
-            <div className="ml-8 space-y-4">
+            <div className="ml-0 sm:ml-8 space-y-4">
               <div className="space-y-1">
                 <div 
                   className="text-sm text-white cursor-pointer hover:text-yellow-400 transition-colors duration-200 font-normal"
@@ -275,14 +274,12 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-
-
       </main>
 
       {/* Hover Popup */}
       {hoveredItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-          <div className="relative w-72 h-56 rounded-lg overflow-hidden shadow-xl">
+          <div className="relative w-64 sm:w-72 h-48 sm:h-56 rounded-lg overflow-hidden shadow-xl">
             <img 
               src={hoverImages[hoveredItem as keyof typeof hoverImages]} 
               alt={`${hoveredItem} image`}

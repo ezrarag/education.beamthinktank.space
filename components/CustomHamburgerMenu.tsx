@@ -30,7 +30,7 @@ export default function CustomHamburgerMenu() {
     { name: 'Education', href: '/education' },
     { name: 'Enroll', href: '/enroll' },
     { name: 'Join BEAM', href: '/join-beam' },
-    { name: 'Cities', href: '/cities' },
+    { name: 'Properties', href: '/atlanta/properties' },
     { name: 'Partner With Us', href: '/partner-with-us' },
     { name: 'Support', href: '/support' }
   ];
@@ -104,17 +104,25 @@ export default function CustomHamburgerMenu() {
             className="space-y-6 mb-12"
           >
             {menuItems.map((item, index) => (
-              <motion.a
+              <motion.div
                 key={item.name}
-                href={item.href}
+                className="relative overflow-hidden"
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-                className="block text-2xl lg:text-3xl font-medium text-white hover:text-gray-300 transition-colors tracking-wide"
-                onClick={() => setIsOpen(false)}
               >
-                {item.name}
-              </motion.a>
+                <motion.a
+                  href={item.href}
+                  className="block text-2xl lg:text-3xl font-medium text-white hover:text-gray-300 transition-colors tracking-wide"
+                  onClick={() => setIsOpen(false)}
+                  whileHover={{
+                    rotateX: 180,
+                    transition: { duration: 0.3 }
+                  }}
+                >
+                  {item.name}
+                </motion.a>
+              </motion.div>
             ))}
           </motion.nav>
 

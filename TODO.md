@@ -237,11 +237,12 @@
 
 ## 🎯 **Immediate Next Steps (When You Return)**
 
-1. **Start with Priority 1**: Research templates and establish design system
-2. **Review current sections**: Identify what needs enhancement vs. what's complete
-3. **Source visual assets**: Begin collecting high-quality images and videos
-4. **Plan content strategy**: Outline what copy needs professional review
-5. **Set up testing**: Establish testing protocols for different devices/browsers
+1. **Fix Atlanta Properties Slug**: The `/atlanta/properties` slug is currently empty/not working - need to create a properties listing page
+2. **Start with Priority 1**: Research templates and establish design system
+3. **Review current sections**: Identify what needs enhancement vs. what's complete
+4. **Source visual assets**: Begin collecting high-quality images and videos
+5. **Plan content strategy**: Outline what copy needs professional review
+6. **Set up testing**: Establish testing protocols for different devices/browsers
 
 ---
 

@@ -11,17 +11,32 @@ interface VideoLightboxProps {
 }
 
 export default function VideoLightbox({ isOpen, onClose, videoUrl, title }: VideoLightboxProps) {
+  const [videoRef, setVideoRef] = useState<HTMLVideoElement | null>(null);
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      // Autoplay video when lightbox opens
+      if (videoRef) {
+        videoRef.play().catch(error => {
+          console.log('Autoplay prevented:', error);
+        });
+      }
     } else {
       document.body.style.overflow = 'unset';
+      // Pause video when lightbox closes
+      if (videoRef) {
+        videoRef.pause();
+      }
     }
 
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isOpen]);
+  }, [isOpen, videoRef]);
+
+  // Check if the video URL is a YouTube embed or direct video file
+  const isYouTubeEmbed = videoUrl.includes('youtube.com/embed') || videoUrl.includes('youtu.be');
 
   if (!isOpen) return null;
 
@@ -55,13 +70,29 @@ export default function VideoLightbox({ isOpen, onClose, videoUrl, title }: Vide
 
           {/* Video */}
           <div className="relative w-full h-0 pb-[56.25%]">
-            <iframe
-              src={videoUrl}
-              title={title}
-              className="absolute top-0 left-0 w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
+            {isYouTubeEmbed ? (
+              <iframe
+                src={videoUrl}
+                title={title}
+                className="absolute top-0 left-0 w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : (
+              <video
+                ref={setVideoRef}
+                src={videoUrl}
+                title={title}
+                className="absolute top-0 left-0 w-full h-full"
+                controls
+                autoPlay
+                muted
+                playsInline
+                preload="auto"
+              >
+                Your browser does not support the video tag.
+              </video>
+            )}
           </div>
 
           {/* Title */}

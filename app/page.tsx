@@ -11,13 +11,43 @@ import DropdownMenu from '@/components/DropdownMenu';
 import VideoLightbox from '@/components/VideoLightbox';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { properties } from '@/lib/properties';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function HomePage() {
+  const router = useRouter();
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentVideo, setCurrentVideo] = useState({ url: '', title: '' });
 
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [schoolsDropdownOpen, setSchoolsDropdownOpen] = useState(false);
+
+  // Debug: Log properties to ensure they're loaded
+  useEffect(() => {
+    console.log('Available properties:', properties);
+  }, []);
+
+  // Flashing effect state
+  const [isFlashing, setIsFlashing] = useState(false);
+
+  // Flashing effect timer
+  useEffect(() => {
+    const flashInterval = setInterval(() => {
+      setIsFlashing(true);
+      setTimeout(() => setIsFlashing(false), 3000); // Flash for 3 seconds
+    }, 23000); // Every 23 seconds
+
+    return () => clearInterval(flashInterval);
+  }, []);
+
+  // Hover images configuration
+  const hoverImages = {
+    parents: 'https://liclwdxursggsdzfrfnd.supabase.co/storage/v1/object/public/home/right%20panel%20videos/pexels-vanessa-loring-5082960.jpg',
+    students: 'https://liclwdxursggsdzfrfnd.supabase.co/storage/v1/object/public/home/right%20panel%20videos/pexels-yankrukov-8199175.jpg',
+    community: 'https://liclwdxursggsdzfrfnd.supabase.co/storage/v1/object/public/home/right%20panel%20videos/pexels-bertellifotografia-33714912.jpg',
+    institutions: 'https://liclwdxursggsdzfrfnd.supabase.co/storage/v1/object/public/home/right%20panel%20videos/pexels-davegarcia-31085767.jpg'
+  };
 
   const openLightbox = (videoUrl: string, title: string) => {
     setCurrentVideo({ url: videoUrl, title });
@@ -78,7 +108,12 @@ export default function HomePage() {
           {/* Center - Contact Info */}
           <div className="hidden lg:flex items-center space-x-32 text-sm tracking-wide">
             <span>Atlanta, Georgia</span>
-            <span>About</span>
+            <span 
+              className="cursor-pointer hover:text-yellow-400 transition-colors duration-200"
+              onClick={() => router.push('/about')}
+            >
+              About
+            </span>
           </div>
 
           {/* Right - Buttons and Menu */}
@@ -110,45 +145,32 @@ export default function HomePage() {
               <AnimatePresence>
                 {schoolsDropdownOpen && (
                   <motion.div 
-                    className="absolute top-full left-0 mt-2 w-64 z-50"
+                    className="absolute top-full left-0 mt-2 w-48 z-50 pointer-events-auto"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
                   >
                     <div className="space-y-2">
-                      <motion.div
-                        className="bg-transparent border border-white/20 rounded-full px-6 py-2 shadow-lg"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.1, duration: 0.3 }}
-                      >
-                        <button className="text-white font-medium text-sm w-full text-left">
-                          Daycare @ Vine City
-                        </button>
-                      </motion.div>
-                      
-                      <motion.div
-                        className="bg-transparent border border-white/20 rounded-full px-6 py-2 shadow-lg"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.2, duration: 0.3 }}
-                      >
-                        <button className="text-white font-medium text-sm w-full text-left">
-                          High School @ Old Fourth Ward
-                        </button>
-                      </motion.div>
-                      
-                      <motion.div
-                        className="bg-transparent border border-white/20 rounded-full px-6 py-2 shadow-lg"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.3, duration: 0.3 }}
-                      >
-                        <button className="text-white font-medium text-sm w-full text-left">
-                          Proposed Site @ Bankhead
-                        </button>
-                      </motion.div>
+                      {properties.map((property, index) => (
+                        <motion.div
+                          key={property.id}
+                          className="bg-transparent border border-white/20 rounded-full px-6 py-2 shadow-lg overflow-hidden cursor-pointer hover:bg-yellow-400/20 hover:border-yellow-400/40 transition-all duration-200"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.1 + (index * 0.1), duration: 0.3 }}
+                          onClick={() => {
+                            console.log('Click detected on:', property.title);
+                            console.log('Navigating to:', `/atlanta/properties/${property.slug}`);
+                            setSchoolsDropdownOpen(false);
+                            router.push(`/atlanta/properties/${property.slug}`);
+                          }}
+                        >
+                          <div className="text-white font-medium text-sm w-full text-left whitespace-nowrap hover:text-yellow-400 transition-colors duration-200">
+                            {property.title}
+                          </div>
+                        </motion.div>
+                      ))}
                     </div>
                   </motion.div>
                 )}
@@ -183,15 +205,19 @@ export default function HomePage() {
                   <div className="text-left space-y-2">
                     <div className="text-2xl lg:text-3xl font-bold text-white tracking-wide relative z-40">
                       <span 
-                        className="cursor-pointer hover:text-yellow-400 transition-colors duration-200"
-                        onClick={() => openLightbox('https://www.youtube.com/embed/your-equity-video-id', 'Equity')}
+                        className={`cursor-pointer hover:text-yellow-400 transition-colors duration-200 ${
+                          isFlashing ? 'animate-flash' : ''
+                        }`}
+                        onClick={() => openLightbox('https://liclwdxursggsdzfrfnd.supabase.co/storage/v1/object/public/home/left%20panel%20videos/0901.mp4', 'Equity')}
                       >
                         Equity
                       </span>
                       <span className="text-white"> + </span>
                       <span 
-                        className="cursor-pointer hover:text-yellow-400 transition-colors duration-200"
-                        onClick={() => openLightbox('https://www.youtube.com/embed/your-experience-video-id', 'Experience')}
+                        className={`cursor-pointer hover:text-yellow-400 transition-colors duration-200 ${
+                          isFlashing ? 'animate-flash' : ''
+                        }`}
+                        onClick={() => openLightbox('https://liclwdxursggsdzfrfnd.supabase.co/storage/v1/object/public/home/left%20panel%20videos/0901%20(1).mp4', 'Experience')}
                       >
                         Experience
                       </span>
@@ -217,6 +243,7 @@ export default function HomePage() {
                   className="text-sm text-white cursor-pointer hover:text-yellow-400 transition-colors duration-200 font-normal"
                   onMouseEnter={() => setHoveredItem('parents')}
                   onMouseLeave={() => setHoveredItem(null)}
+                  onClick={() => router.push('/education')}
                 >
                   Parents
                 </div>
@@ -224,6 +251,7 @@ export default function HomePage() {
                   className="text-sm text-white cursor-pointer hover:text-yellow-400 transition-colors duration-200 font-normal"
                   onMouseEnter={() => setHoveredItem('students')}
                   onMouseLeave={() => setHoveredItem(null)}
+                  onClick={() => router.push('/join-beam')}
                 >
                   Students
                 </div>
@@ -231,6 +259,7 @@ export default function HomePage() {
                   className="text-sm text-white cursor-pointer hover:text-yellow-400 transition-colors duration-200 font-normal"
                   onMouseEnter={() => setHoveredItem('community')}
                   onMouseLeave={() => setHoveredItem(null)}
+                  onClick={() => router.push('/support')}
                 >
                   Community
                 </div>
@@ -238,6 +267,7 @@ export default function HomePage() {
                   className="text-sm text-white cursor-pointer hover:text-yellow-400 transition-colors duration-200 font-normal"
                   onMouseEnter={() => setHoveredItem('institutions')}
                   onMouseLeave={() => setHoveredItem(null)}
+                  onClick={() => router.push('/partner-with-us')}
                 >
                   Institutions
                 </div>
@@ -252,11 +282,14 @@ export default function HomePage() {
       {/* Hover Popup */}
       {hoveredItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-          <div className="bg-transparent border border-white/20 rounded-lg p-4 shadow-xl w-64 h-48 flex items-center justify-center">
-            <div className="text-center">
-              <div className="w-32 h-24 bg-gray-200 rounded-lg flex items-center justify-center mb-2">
-                <span className="text-gray-500 text-sm">Placeholder Image</span>
-              </div>
+          <div className="relative w-72 h-56 rounded-lg overflow-hidden shadow-xl">
+            <img 
+              src={hoverImages[hoveredItem as keyof typeof hoverImages]} 
+              alt={`${hoveredItem} image`}
+              className="w-full h-full object-cover"
+            />
+            {/* Text Overlay */}
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
               <div className="text-white text-sm font-medium capitalize">
                 {hoveredItem}
               </div>

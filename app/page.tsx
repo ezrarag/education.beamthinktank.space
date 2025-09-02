@@ -143,28 +143,38 @@ export default function HomePage() {
               <AnimatePresence>
                 {schoolsDropdownOpen && (
                   <motion.div 
-                    className="absolute top-full left-0 mt-2 w-32 sm:w-48 z-50 pointer-events-auto"
+                    className="absolute top-full left-0 mt-2 w-32 sm:w-48 z-50 pointer-events-auto bg-transparent"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <div className="space-y-2">
+                    <div className="space-y-2 p-1">
                       {properties.map((property, index) => (
                         <motion.div
                           key={property.id}
-                          className="bg-transparent border border-white/20 rounded-full px-3 sm:px-6 py-2 shadow-lg overflow-hidden cursor-pointer hover:bg-yellow-400/20 hover:border-yellow-400/40 transition-all duration-200"
+                          className="bg-transparent border border-white/20 rounded-full px-3 sm:px-6 py-3 shadow-lg overflow-hidden cursor-pointer hover:bg-yellow-400/20 hover:border-yellow-400/40 transition-all duration-200 group w-full"
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: 0.1 + (index * 0.1), duration: 0.3 }}
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
                             console.log('Click detected on:', property.title);
                             console.log('Navigating to:', `/atlanta/properties/${property.slug}`);
                             setSchoolsDropdownOpen(false);
                             router.push(`/atlanta/properties/${property.slug}`);
                           }}
+                          onMouseEnter={(e) => {
+                            e.preventDefault();
+                            console.log('Hover entered:', property.title);
+                          }}
+                          onMouseLeave={(e) => {
+                            e.preventDefault();
+                            console.log('Hover left:', property.title);
+                          }}
                         >
-                          <div className="text-white font-medium text-xs sm:text-sm w-full text-left whitespace-nowrap hover:text-yellow-400 transition-colors duration-200">
+                          <div className="text-white font-medium text-xs sm:text-sm w-full text-left whitespace-nowrap group-hover:text-yellow-400 transition-colors duration-200 pointer-events-none">
                             {property.title}
                           </div>
                         </motion.div>

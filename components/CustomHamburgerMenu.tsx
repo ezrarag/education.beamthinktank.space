@@ -119,6 +119,10 @@ export default function CustomHamburgerMenu() {
                     rotateX: 180,
                     transition: { duration: 0.3 }
                   }}
+                  whileTap={{
+                    scale: 0.95,
+                    transition: { duration: 0.1 }
+                  }}
                 >
                   {item.name}
                 </motion.a>
@@ -134,18 +138,30 @@ export default function CustomHamburgerMenu() {
             className="space-y-3"
           >
             {socialLinks.map((item, index) => (
-              <motion.a
+              <motion.div
                 key={item.name}
-                href={item.href}
+                className="relative overflow-hidden"
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 1.2 + index * 0.1 }}
-                className="block text-sm text-white hover:text-gray-300 transition-colors tracking-wide"
-                target="_blank"
-                rel="noopener noreferrer"
               >
-                {item.name}
-              </motion.a>
+                <motion.a
+                  href={item.href}
+                  className="block text-sm text-white hover:text-gray-300 transition-colors tracking-wide"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{
+                    rotateX: 180,
+                    transition: { duration: 0.3 }
+                  }}
+                  whileTap={{
+                    scale: 0.95,
+                    transition: { duration: 0.1 }
+                  }}
+                >
+                  {item.name}
+                </motion.a>
+              </motion.div>
             ))}
           </motion.div>
         </div>

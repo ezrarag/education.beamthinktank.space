@@ -2,13 +2,14 @@ import { getPropertyBySlug } from '@/lib/properties';
 import { notFound } from 'next/navigation';
 
 interface PropertyPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
-export default function PropertyPage({ params }: PropertyPageProps) {
-  const property = getPropertyBySlug(params.slug);
+export default async function PropertyPage({ params }: PropertyPageProps) {
+  const { slug } = await params;
+  const property = getPropertyBySlug(slug);
 
   if (!property) {
     notFound();

@@ -2,94 +2,90 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Canva+Sans:wght@300;400;500;600;700;800&display=swap');
-@import '../framer/styles.css';
+:root {
+  color-scheme: light;
+  --education-navy: #1a3a5c;
+  --education-amber: #f4a11d;
+  --education-cream: #faf7f2;
+  --education-charcoal: #2c2c2c;
+  --education-white: #ffffff;
+  --education-gap-red: #c0392b;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(circle at top left, rgba(244, 161, 29, 0.16), transparent 26%),
+    linear-gradient(180deg, #fffdf9 0%, #faf7f2 45%, #f3efe8 100%);
+}
+
+::selection {
+  background: rgba(244, 161, 29, 0.24);
+  color: var(--education-navy);
+}
 
 @layer base {
-  html {
-    font-family: 'Canva Sans', system-ui, sans-serif;
-    scroll-behavior: smooth;
-  }
-  
-  body {
-    background-color: #000;
-    color: #fff;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Canva Sans', system-ui, sans-serif;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-playfair-display), Georgia, serif;
+    color: var(--education-navy);
+    letter-spacing: -0.02em;
   }
 }
 
 @layer components {
-  .btn-primary {
-    @apply bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+  .page-shell {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10;
   }
-  
-  .btn-secondary {
-    @apply bg-secondary-600 hover:bg-secondary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
-  }
-  
-  .btn-outline {
-    @apply border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white font-medium py-2 px-4 rounded-lg transition-all duration-200;
-  }
-  
-  .btn-accent {
-    @apply bg-accent-600 hover:bg-accent-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
-  }
-  
-  .card {
-    @apply bg-white rounded-xl shadow-lg border border-gray-100 p-6;
-  }
-  
-  .input-field {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
-  }
-  
-  .section-padding {
-    @apply py-16 px-4 sm:px-6 lg:px-8;
-  }
-  
-  .glass-effect {
-    @apply bg-white/10 backdrop-blur-md border border-white/20;
-  }
-  
-  .text-glow {
-    text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
-  }
-}
 
-@layer utilities {
-  .text-gradient {
-    @apply bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent;
+  .surface-panel {
+    @apply rounded-[2rem] border border-education-line bg-white/80 shadow-research backdrop-blur-sm;
   }
-  
-  .bg-gradient-primary {
-    @apply bg-gradient-to-br from-primary-500 to-primary-700;
-  }
-  
-  .bg-gradient-secondary {
-    @apply bg-gradient-to-br from-secondary-500 to-secondary-700;
-  }
-  
-  .bg-gradient-dark {
-    @apply bg-gradient-to-br from-gray-900 via-black to-gray-900;
-  }
-  
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-  
-  .animate-pulse-slow {
-    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-}
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.28em] text-education-amber;
   }
-  50% {
-    transform: translateY(-20px);
+
+  .section-title {
+    @apply font-display text-4xl leading-tight sm:text-5xl;
+  }
+
+  .section-copy {
+    @apply text-base leading-8 text-slate-700;
+  }
+
+  .nav-pill {
+    @apply rounded-full border border-education-line bg-white/65 px-4 py-2 text-sm font-medium text-education-navy transition hover:border-education-navy/25 hover:bg-white;
+  }
+
+  .metric-card {
+    @apply rounded-[1.6rem] border border-white/10 bg-white/[0.06] p-6 backdrop-blur-sm;
+  }
+
+  .data-card {
+    @apply rounded-[1.5rem] border border-education-line bg-white/80 p-6 shadow-research;
+  }
+
+  .field-input {
+    @apply w-full rounded-2xl border border-education-line bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-education-navy/35 focus:ring-2 focus:ring-education-amber/25;
+  }
+
+  .field-label {
+    @apply text-sm font-medium text-education-navy;
+  }
+
+  .primary-button {
+    @apply inline-flex items-center justify-center rounded-full bg-education-navy px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#14304d] disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .secondary-button {
+    @apply inline-flex items-center justify-center rounded-full border border-education-line bg-white px-5 py-3 text-sm font-semibold text-education-navy transition hover:border-education-navy/25 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60;
   }
 }

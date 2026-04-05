@@ -1,304 +1,112 @@
-'use client';
-
-import HeroSmallsloganFramerComponent from '../framer/hero-smallslogan';
-import HeroItemsFramerComponent from '../framer/hero-items';
-import AllMainMenuFramerComponent from '../framer/all-main-menu';
-import ButtonFramerComponent from '../framer/button';
-import AdvlogoFramerComponent from '../framer/advlogo';
-import OtherFramerComponent from '../framer/other';
-import CustomHamburgerMenu from '@/components/CustomHamburgerMenu';
-import DropdownMenu from '@/components/DropdownMenu';
-import VideoLightbox from '@/components/VideoLightbox';
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { properties } from '@/lib/properties';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link'
+import { GraduationGapChart } from '@/components/GraduationGapChart'
+import { ProgramCard } from '@/components/ProgramCard'
+import { StatCounter } from '@/components/StatCounter'
+import { educationProgramsSeed } from '@/lib/content'
 
 export default function HomePage() {
-  const router = useRouter();
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [currentVideo, setCurrentVideo] = useState({ url: '', title: '' });
-
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-  const [schoolsDropdownOpen, setSchoolsDropdownOpen] = useState(false);
-
-  // Debug: Log properties to ensure they're loaded
-  useEffect(() => {
-    console.log('Available properties:', properties);
-  }, []);
-
-  // Flashing effect state
-  const [isFlashing, setIsFlashing] = useState(false);
-
-  // Flashing effect timer
-  useEffect(() => {
-    const flashInterval = setInterval(() => {
-      setIsFlashing(true);
-      setTimeout(() => setIsFlashing(false), 3000); // Flash for 3 seconds
-    }, 23000); // Every 23 seconds
-
-    return () => clearInterval(flashInterval);
-  }, []);
-
-  // Hover images configuration
-  const hoverImages = {
-    parents: 'https://liclwdxursggsdzfrfnd.supabase.co/storage/v1/object/public/home/right%20panel%20videos/pexels-vanessa-loring-5082960.jpg',
-    students: 'https://liclwdxursggsdzfrfnd.supabase.co/storage/v1/object/public/home/right%20panel%20videos/pexels-yankrukov-8199175.jpg ',
-    community: 'https://liclwdxursggsdzfrfnd.supabase.co/storage/v1/object/public/home/right%20panel%20videos/pexels-bertellifotografia-33714912.jpg',
-    institutions: 'https://liclwdxursggsdzfrfnd.supabase.co/storage/v1/object/public/home/right%20panel%20videos/pexels-davegarcia-31085767.jpg'
-  };
-
-  const openLightbox = (videoUrl: string, title: string) => {
-    setCurrentVideo({ url: videoUrl, title });
-    setLightboxOpen(true);
-  };
-
-  const closeLightbox = () => {
-    setLightboxOpen(false);
-  };
-
-  const toggleSchoolsDropdown = () => {
-    setSchoolsDropdownOpen(!schoolsDropdownOpen);
-  };
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Element;
-      if (schoolsDropdownOpen && !target.closest('.schools-dropdown-container')) {
-        setSchoolsDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [schoolsDropdownOpen]);
-
-
-
-
-
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
-      {/* Background Image */}
-      <div 
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: 'url("https://liclwdxursggsdzfrfnd.supabase.co/storage/v1/object/public/home/pexels-katerina-holmes-5905441.jpg")',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
-        }}
-      />
-      
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/40 z-10"></div>
-
-      {/* Header Section */}
-      <header className="relative z-20 px-4 sm:px-6 py-4" style={{ backgroundColor: 'transparent !important' }}>
-        <div className="flex items-center justify-between">
-          {/* Left - Logo */}
-          <div className="flex-shrink-0">
-            <h1 className="text-xl sm:text-2xl font-bold text-white tracking-wide">EDUCATION</h1>
-          </div>
-
-          {/* Center - Contact Info */}
-          <div className="hidden lg:flex items-center space-x-32 text-sm tracking-wide">
-            <span>Atlanta, Georgia</span>
-            <span 
-              className="cursor-pointer hover:text-yellow-400 transition-colors duration-200"
-              onClick={() => router.push('/about')}
-            >
-              About
-            </span>
-          </div>
-
-          {/* Right - Buttons and Menu */}
-          <div className="flex items-center space-x-2 sm:space-x-4">
-            {/* See Schools Button with Dropdown */}
-            <div ref={dropdownRef} className="flex items-center relative schools-dropdown-container">
-              <div className="bg-transparent border border-white/20 rounded-full px-3 sm:px-6 py-2 shadow-lg flex items-center justify-between w-32 sm:w-48">
-                <button 
-                  onClick={toggleSchoolsDropdown}
-                  className="text-white font-medium text-xs sm:text-sm"
-                >
-                  See "schools"
-                </button>
-                
-                {/* Yellow Arrow Button */}
-                <button 
-                  onClick={toggleSchoolsDropdown}
-                  className={`w-6 h-6 sm:w-7 sm:h-7 bg-yellow-400 rounded-full flex items-center justify-center hover:bg-yellow-300 transition-colors shadow-lg transform transition-transform duration-200 ${
-                    schoolsDropdownOpen ? 'rotate-180' : ''
-                  }`}
-                >
-                  <svg className="w-2 h-2 sm:w-3 sm:h-3 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
+    <div className="pb-12">
+      <section className="page-shell pt-10 sm:pt-14">
+        <div className="overflow-hidden rounded-[2.4rem] bg-education-navy px-6 py-10 text-white shadow-research sm:px-10 sm:py-14">
+          <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-education-amber">Wisconsin Graduation Audit</p>
+              <h1 className="mt-6 max-w-4xl font-display text-5xl leading-[1.02] text-white sm:text-6xl lg:text-7xl">
+                20 points. The gap between belief and outcome.
+              </h1>
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-white/76">
+                BEAM Education exists to close it with research, real-world programs, and zero tolerance for the expectation gap.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link href="/programs" className="inline-flex items-center rounded-full bg-education-amber px-5 py-3 text-sm font-semibold text-education-navy transition hover:brightness-105">
+                  Explore Programs
+                </Link>
+                <Link href="/research" className="inline-flex items-center rounded-full border border-white/16 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/8">
+                  Read The Audit
+                </Link>
               </div>
-
-              {/* Dropdown Menu */}
-              {schoolsDropdownOpen && (
-                <div className="absolute top-full left-0 mt-2 w-32 sm:w-48 z-[9999] bg-black/95 backdrop-blur-sm border border-white/20 rounded-lg shadow-2xl overflow-hidden">
-                  <div className="p-2 space-y-1">
-                    {properties.map((property, index) => (
-                      <button
-                        key={property.id}
-                        className="w-full text-left bg-transparent hover:bg-yellow-400/20 hover:border-yellow-400/40 border border-transparent rounded-full px-3 sm:px-4 py-2 transition-all duration-200 group"
-                        onClick={() => {
-                          console.log('Click detected on:', property.title);
-                          console.log('Navigating to:', `/atlanta/properties/${property.slug}`);
-                          setSchoolsDropdownOpen(false);
-                          router.push(`/atlanta/properties/${property.slug}`);
-                        }}
-                        onMouseEnter={() => {
-                          console.log('Hover entered:', property.title);
-                        }}
-                        onMouseLeave={() => {
-                          console.log('Hover left:', property.title);
-                        }}
-                      >
-                        <div className="text-white font-medium text-xs sm:text-sm group-hover:text-yellow-400 transition-colors duration-200 truncate">
-                          {property.title}
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
-            
-            <CustomHamburgerMenu />
-          </div>
-        </div>
-      </header>
 
-      {/* Main Content */}
-      <main className="relative z-20 flex-1 flex flex-col justify-between min-h-screen">
-        {/* Top Section - Company Info */}
-        <div className="px-4 sm:px-6 pt-20 sm:pt-40 lg:pt-60">
-          <div className="flex justify-start ml-4 sm:ml-8 lg:ml-16">
-            <div className="relative">
-              {/* Vertical line - hidden on mobile, visible on larger screens */}
-              <div className="hidden sm:block absolute left-0 top-0 w-px bg-white/30" style={{ height: '50vh' }}>
-                <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white/30 to-transparent"></div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="metric-card">
+                <p className="text-xs uppercase tracking-[0.22em] text-white/60">Black students</p>
+                <p className="mt-4 font-display text-5xl text-education-amber sm:text-6xl">
+                  <StatCounter value={75.7} />
+                </p>
+                <p className="mt-4 text-sm leading-7 text-white/70">Wisconsin four-year graduation rate benchmark used as the front-door accountability metric.</p>
               </div>
-              
-              <div className="ml-0 sm:ml-8 space-y-4">
-                <div className="text-left space-y-2">
-                  <span className="text-sm text-gray-300 tracking-wide">2025</span>
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 space-y-1 sm:space-y-0">
-                    <span className="text-sm font-semibold tracking-wide">Building</span>
-                    <span className="text-sm tracking-wide">real schools, careers, and ownership.</span>
-                  </div>
-                </div>
-                
-                <div className="mt-4 sm:mt-6">
-                  <div className="text-left space-y-2">
-                    <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-wide relative z-40">
-                      <span 
-                        className={`cursor-pointer hover:text-yellow-400 transition-colors duration-200 ${
-                          isFlashing ? 'animate-flash' : ''
-                        }`}
-                        onClick={() => openLightbox('https://liclwdxursggsdzfrfnd.supabase.co/storage/v1/object/public/home/left%20panel%20videos/0901.mp4', 'Equity')}
-                      >
-                        Equity
-                      </span>
-                      <span className="text-white"> + </span>
-                      <span 
-                        className={`cursor-pointer hover:text-yellow-400 transition-colors duration-200 ${
-                          isFlashing ? 'animate-flash' : ''
-                        }`}
-                        onClick={() => openLightbox('https://liclwdxursggsdzfrfnd.supabase.co/storage/v1/object/public/home/left%20panel%20videos/0901%20(1).mp4', 'Experience')}
-                      >
-                        Experience
-                      </span>
-                    </div>
-                  </div>
-                </div>
+              <div className="metric-card">
+                <p className="text-xs uppercase tracking-[0.22em] text-white/60">White students</p>
+                <p className="mt-4 font-display text-5xl text-white sm:text-6xl">
+                  <StatCounter value={95.8} />
+                </p>
+                <p className="mt-4 text-sm leading-7 text-white/70">The gap is not a mystery. It is measurable, durable, and correctable.</p>
               </div>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Center Section - Services */}
-        <div className="flex-1 flex items-center justify-end px-4 sm:px-6 mt-10 sm:mt-20 mr-4 sm:mr-8 lg:mr-16">
-          <div className="relative">
-            {/* Vertical line - hidden on mobile, visible on larger screens */}
-            <div className="hidden sm:block absolute left-0 top-0 w-px bg-white/30" style={{ height: '100vh' }}>
-              <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white/30 to-transparent"></div>
-            </div>
-            
-            <div className="ml-0 sm:ml-8 space-y-4">
-              <div className="space-y-1">
-                <div 
-                  className="text-sm text-white cursor-pointer hover:text-yellow-400 transition-colors duration-200 font-normal"
-                  onMouseEnter={() => setHoveredItem('parents')}
-                  onMouseLeave={() => setHoveredItem(null)}
-                  onClick={() => router.push('/education')}
-                >
-                  Parents
-                </div>
-                <div 
-                  className="text-sm text-white cursor-pointer hover:text-yellow-400 transition-colors duration-200 font-normal"
-                  onMouseEnter={() => setHoveredItem('students')}
-                  onMouseLeave={() => setHoveredItem(null)}
-                  onClick={() => router.push('/join-beam')}
-                >
-                  Students
-                </div>
-                <div 
-                  className="text-sm text-white cursor-pointer hover:text-yellow-400 transition-colors duration-200 font-normal"
-                  onMouseEnter={() => setHoveredItem('community')}
-                  onMouseLeave={() => setHoveredItem(null)}
-                  onClick={() => router.push('/support')}
-                >
-                  Community
-                </div>
-                <div 
-                  className="text-sm text-white cursor-pointer hover:text-yellow-400 transition-colors duration-200 font-normal"
-                  onMouseEnter={() => setHoveredItem('institutions')}
-                  onMouseLeave={() => setHoveredItem(null)}
-                  onClick={() => router.push('/partner-with-us')}
-                >
-                  Institutions
-                </div>
-              </div>
-            </div>
+      <section className="page-shell mt-16 grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="surface-panel p-8">
+          <p className="eyebrow">The Fiscal Audit</p>
+          <h2 className="mt-4 section-title">Taxation without adequate educational return.</h2>
+          <div className="mt-5 space-y-5 text-base leading-8 text-slate-700">
+            <p>
+              The BEAM Education audit starts with a basic question: what does Wisconsin ask Black families to pay into a system that consistently underdelivers for Black children?
+            </p>
+            <p>
+              Families in the lower and middle income quintiles shoulder higher effective state and local tax rates than the wealthiest households, while the public system still produces a persistent outcome gap. That is a fiscal integrity problem, not a narrative problem.
+            </p>
+            <p>
+              We treat that mismatch as an auditable public obligation. The intervention model is direct: pair rigorous evidence with supplemental programs tied to live BEAM tracks so students gain both academic lift and real-world pathway exposure.
+            </p>
           </div>
         </div>
-      </main>
 
-      {/* Hover Popup */}
-      {hoveredItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-          <div className="relative w-64 sm:w-72 h-48 sm:h-56 rounded-lg overflow-hidden shadow-xl">
-            <img 
-              src={hoverImages[hoveredItem as keyof typeof hoverImages]} 
-              alt={`${hoveredItem} image`}
-              className="w-full h-full object-cover"
-            />
-            {/* Text Overlay */}
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-              <div className="text-white text-sm font-medium capitalize">
-                {hoveredItem}
-              </div>
+        <GraduationGapChart title="Wisconsin Black vs. white graduation rates" />
+      </section>
+
+      <section className="page-shell mt-16">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="eyebrow">The Programs</p>
+            <h2 className="mt-4 section-title">Supplemental tracks connected to the wider BEAM system.</h2>
+          </div>
+          <Link href="/programs" className="secondary-button">
+            View All Programs
+          </Link>
+        </div>
+
+        <div className="mt-8 flex gap-6 overflow-x-auto pb-3">
+          {educationProgramsSeed.map((program) => (
+            <div key={program.id} className="min-w-[320px] max-w-[360px] flex-1">
+              <ProgramCard program={program} ctaLabel="Explore" />
             </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="page-shell mt-16">
+        <div className="surface-panel grid gap-8 p-8 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div>
+            <p className="eyebrow">Join The Research</p>
+            <h2 className="mt-4 section-title">Grant writers, researchers, and educators are part of the intervention stack.</h2>
+            <p className="mt-5 max-w-3xl text-base leading-8 text-slate-700">
+              This work is not just student-facing. We need records requests, grant development, educator partnerships, and classroom pilots moving at the same time.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/join?role=researcher" className="primary-button">
+              Join The Workspace
+            </Link>
+            <Link href="/educators" className="secondary-button">
+              For Educators
+            </Link>
           </div>
         </div>
-      )}
-
-      {/* Video Lightbox */}
-      <VideoLightbox
-        isOpen={lightboxOpen}
-        onClose={closeLightbox}
-        videoUrl={currentVideo.url}
-        title={currentVideo.title}
-      />
-
+      </section>
     </div>
-  );
+  )
 }
